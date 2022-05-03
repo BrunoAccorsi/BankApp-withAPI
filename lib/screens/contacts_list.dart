@@ -1,8 +1,11 @@
 import 'package:bytebank/database/contact_dao.dart';
 import 'package:bytebank/screens/contactForm.dart';
+import 'package:bytebank/screens/transaction_form.dart';
 import 'package:flutter/material.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 import '../models/contact.dart';
+import '../widgets/progress.dart';
 
 class ContactsList extends StatefulWidget {
   @override
@@ -26,15 +29,7 @@ class _ContactsListState extends State<ContactsList> {
             case ConnectionState.none:
               break;
             case ConnectionState.waiting:
-              return Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    CircularProgressIndicator(),
-                    Text('Loading'),
-                  ],
-                ),
-              );
+              return Progress();
             case ConnectionState.active:
               break;
             case ConnectionState.done:
@@ -42,7 +37,16 @@ class _ContactsListState extends State<ContactsList> {
               return ListView.builder(
                 itemBuilder: (context, index) {
                   final contact = contacts[index];
-                  return _ContactItem(contact);
+                  return _ContactItem(
+                    contact,
+                    onClick: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: ((context) => TransactionForm(contact)),
+                          ));
+                    },
+                  );
                 },
                 itemCount: contacts.length,
               );
@@ -70,13 +74,15 @@ class _ContactsListState extends State<ContactsList> {
 
 class _ContactItem extends StatelessWidget {
   final Contact contact;
+  final VoidCallback onClick;
 
-  const _ContactItem(this.contact);
+  const _ContactItem(this.contact, {required this.onClick});
 
   @override
   Widget build(BuildContext context) {
     return Card(
       child: ListTile(
+        onTap: onClick,
         title: Text(
           contact.name,
           style: TextStyle(fontSize: 24.0),
