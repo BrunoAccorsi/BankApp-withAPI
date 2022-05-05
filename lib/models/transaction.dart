@@ -5,10 +5,12 @@ part 'transaction.g.dart';
 
 @JsonSerializable()
 class Transaction {
+  final String id;
   final double value;
   final Contact contact;
 
   Transaction(
+    this.id,
     this.value,
     this.contact,
   );
