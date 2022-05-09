@@ -77,7 +77,7 @@ class _FeatureItem extends StatelessWidget {
         color: Theme.of(context).primaryColor,
         child: InkWell(
           onTap: () {
-            onClick!();
+            onClick();
           },
           child: Container(
             padding: EdgeInsets.all(8.0),
