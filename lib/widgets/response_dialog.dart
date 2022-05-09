@@ -7,13 +7,14 @@ class ResponseDialog extends StatelessWidget {
   final IconData? icon;
   final Color colorIcon;
 
-  ResponseDialog({
+  const ResponseDialog({
+    Key? key,
     this.title = "",
     this.message = "",
     this.icon,
     this.buttonText = 'Ok',
     this.colorIcon = Colors.black,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +45,7 @@ class ResponseDialog extends StatelessWidget {
               child: Text(
                 message,
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 24.0,
                 ),
               ),
@@ -54,7 +55,7 @@ class ResponseDialog extends StatelessWidget {
         ],
       ),
       actions: <Widget>[
-        FlatButton(
+        TextButton(
           child: Text(buttonText),
           onPressed: () => Navigator.pop(context),
         )
@@ -68,11 +69,12 @@ class SuccessDialog extends StatelessWidget {
   final String message;
   final IconData icon;
 
-  SuccessDialog(
+  const SuccessDialog(
     this.message, {
+    Key? key,
     this.title = 'Success',
     this.icon = Icons.done,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -90,11 +92,12 @@ class FailureDialog extends StatelessWidget {
   final String message;
   final IconData icon;
 
-  FailureDialog(
+  const FailureDialog(
     this.message, {
+    Key? key,
     this.title = 'Failure',
     this.icon = Icons.warning,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -1,13 +1,17 @@
+// ignore_for_file: camel_case_types
+
 import 'package:bytebank/screens/contacts_list.dart';
 import 'package:bytebank/screens/transactions_list.dart';
 import 'package:flutter/material.dart';
 
 class dashboard extends StatelessWidget {
+  const dashboard({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Dashboard'),
+        title: const Text('Dashboard'),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -17,7 +21,7 @@ class dashboard extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: Image.asset('images/bytebank_logo.png'),
           ),
-          Container(
+          SizedBox(
             height: 120,
             child: ListView(
               scrollDirection: Axis.horizontal,
@@ -53,7 +57,7 @@ class dashboard extends StatelessWidget {
 void _showContactsList(BuildContext context) {
   Navigator.of(context).push(
     MaterialPageRoute(
-      builder: (context) => ContactsList(),
+      builder: (context) => const ContactsList(),
     ),
   );
 }
@@ -80,7 +84,7 @@ class _FeatureItem extends StatelessWidget {
             onClick();
           },
           child: Container(
-            padding: EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8.0),
             height: 100,
             width: 150,
             child: Column(
@@ -94,7 +98,7 @@ class _FeatureItem extends StatelessWidget {
                 ),
                 Text(
                   name,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 16.0,
                   ),

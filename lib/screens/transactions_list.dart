@@ -9,14 +9,16 @@ class TransactionsList extends StatelessWidget {
   final loadingMessage = 'Loading Transactions';
   final TransactionWebClient _webClient = TransactionWebClient();
 
+  TransactionsList({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Transactions'),
+        title: const Text('Transactions'),
       ),
       body: FutureBuilder<List<Transaction>>(
-          future: Future.delayed(Duration(seconds: 1))
+          future: Future.delayed(const Duration(seconds: 1))
               .then((value) => _webClient.getAll()),
           builder: (context, snapshot) {
             switch (snapshot.connectionState) {
@@ -36,17 +38,17 @@ class TransactionsList extends StatelessWidget {
                         final Transaction transaction = transactions[index];
                         return Card(
                           child: ListTile(
-                            leading: Icon(Icons.monetization_on),
+                            leading: const Icon(Icons.monetization_on),
                             title: Text(
                               transaction.value.toString(),
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 24.0,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
                             subtitle: Text(
                               transaction.contact.accountNumber.toString(),
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 16.0,
                               ),
                             ),
@@ -56,17 +58,17 @@ class TransactionsList extends StatelessWidget {
                       itemCount: transactions.length,
                     );
                   }
-                  return CenteredMessage(
+                  return const CenteredMessage(
                     'No Transactions Found',
                     icon: Icons.search,
                   );
                 }
-                return CenteredMessage(
+                return const CenteredMessage(
                   'Connection Lost',
                   icon: Icons.cable_rounded,
                 );
             }
-            return CenteredMessage('Unknow error');
+            return const CenteredMessage('Unknow error');
           }),
     );
   }

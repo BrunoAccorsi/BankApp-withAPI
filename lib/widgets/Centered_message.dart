@@ -1,3 +1,5 @@
+// ignore_for_file: file_names, duplicate_ignore
+
 import 'package:flutter/material.dart';
 
 class CenteredMessage extends StatelessWidget {
@@ -6,12 +8,13 @@ class CenteredMessage extends StatelessWidget {
   final double iconSize;
   final double fontSize;
 
-  CenteredMessage(
+  const CenteredMessage(
     this.message, {
+    Key? key,
     this.icon,
     this.iconSize = 64,
     this.fontSize = 24,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -10,12 +10,12 @@ class Progress extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          CircularProgressIndicator(),
+          const CircularProgressIndicator(),
           Padding(
             padding: const EdgeInsets.only(top: 8.0),
             child: Text(
               message,
-              style: TextStyle(fontSize: 16),
+              style: const TextStyle(fontSize: 16),
             ),
           ),
         ],

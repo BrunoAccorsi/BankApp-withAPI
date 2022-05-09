@@ -13,7 +13,7 @@ import '../models/transaction.dart';
 class TransactionForm extends StatefulWidget {
   final Contact contact;
 
-  const TransactionForm(this.contact);
+  const TransactionForm(this.contact, {Key? key}) : super(key: key);
 
   @override
   _TransactionFormState createState() => _TransactionFormState();
@@ -22,7 +22,7 @@ class TransactionForm extends StatefulWidget {
 class _TransactionFormState extends State<TransactionForm> {
   final TextEditingController _valueController = TextEditingController();
   final TransactionWebClient _webClient = TransactionWebClient();
-  final String transactionId = Uuid().v4();
+  final String transactionId = const Uuid().v4();
 
   bool _sending = false;
 
@@ -39,8 +39,8 @@ class _TransactionFormState extends State<TransactionForm> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Visibility(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                child: const Padding(
+                  padding: EdgeInsets.all(8.0),
                   child: Progress(),
                 ),
                 visible: _sending,
@@ -144,7 +144,7 @@ class _TransactionFormState extends State<TransactionForm> {
     await showDialog(
         context: context,
         builder: (contextDialog) {
-          return SuccessDialog('Transaction sent');
+          return const SuccessDialog('Transaction sent');
         });
     Navigator.pop(context);
   }

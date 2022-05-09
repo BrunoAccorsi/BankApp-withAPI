@@ -1,8 +1,12 @@
+// ignore_for_file: file_names
+
 import 'package:bytebank/database/contact_dao.dart';
 import 'package:flutter/material.dart';
 import '../models/contact.dart';
 
 class ContactForm extends StatefulWidget {
+  const ContactForm({Key? key}) : super(key: key);
+
   @override
   State<ContactForm> createState() => _ContactFormState();
 }
@@ -25,17 +29,17 @@ class _ContactFormState extends State<ContactForm> {
           children: [
             TextField(
               controller: _nameController,
-              decoration: InputDecoration(labelText: 'Full Name'),
-              style: TextStyle(
+              decoration: const InputDecoration(labelText: 'Full Name'),
+              style: const TextStyle(
                 fontSize: 24.0,
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(top: 8.0),
+              padding: const EdgeInsets.only(top: 8.0),
               child: TextField(
                 controller: _accountNumberController,
-                decoration: InputDecoration(labelText: 'Account number'),
-                style: TextStyle(
+                decoration: const InputDecoration(labelText: 'Account number'),
+                style: const TextStyle(
                   fontSize: 24.0,
                 ),
                 keyboardType: TextInputType.number,
