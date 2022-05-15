@@ -86,7 +86,10 @@ class _ContactItem extends StatelessWidget {
         onTap: onClick,
         title: Text(
           contact.name,
-          style: const TextStyle(fontSize: 24.0),
+          style: TextStyle(
+            fontSize: 24.0,
+            color: Colors.grey[800],
+          ),
         ),
         subtitle: Text(
           contact.accountNumber.toString(),

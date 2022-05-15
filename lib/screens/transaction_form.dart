@@ -1,10 +1,12 @@
 import 'dart:async';
 
+import 'package:bytebank/models/balance.dart';
 import 'package:bytebank/webAPI/webClients/transaction_webClient.dart';
 import 'package:bytebank/widgets/Auth_dialog.dart';
 import 'package:bytebank/widgets/progress.dart';
 import 'package:bytebank/widgets/response_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
 import '../models/contact.dart';
@@ -23,12 +25,14 @@ class _TransactionFormState extends State<TransactionForm> {
   final TextEditingController _valueController = TextEditingController();
   final TransactionWebClient _webClient = TransactionWebClient();
   final String transactionId = const Uuid().v4();
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   bool _sending = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         title: const Text('New transaction'),
       ),
@@ -81,16 +85,22 @@ class _TransactionFormState extends State<TransactionForm> {
                       final double? value =
                           double.tryParse(_valueController.text);
                       if (value != null) {
-                        showDialog(
-                            context: context,
-                            builder: (contextDialog) {
-                              return AuthDialog(onConfirm: (String password) {
-                                final transactionCreated = Transaction(
-                                    transactionId, value, widget.contact);
-                                saveTransaction(
-                                    transactionCreated, password, context);
+                        if (!_validateTransaction(context, value)) {
+                          _showFailureMessage(context,
+                              message:
+                                  'Your balance is not sufficient for this transaction');
+                        } else {
+                          showDialog(
+                              context: context,
+                              builder: (contextDialog) {
+                                return AuthDialog(onConfirm: (String password) {
+                                  final transactionCreated = Transaction(
+                                      transactionId, value, widget.contact);
+                                  saveTransaction(
+                                      transactionCreated, password, context);
+                                });
                               });
-                            });
+                        }
                       } else {
                         _showFailureMessage(context,
                             message: 'Transaction value canot be null');
@@ -114,6 +124,10 @@ class _TransactionFormState extends State<TransactionForm> {
     await _send(transactionCreated, password, context);
 
     await _showSucessfulMessage(context);
+  }
+
+  bool _validateTransaction(BuildContext context, double value) {
+    return value < Provider.of<Balance>(context, listen: false).value;
   }
 
   Future<void> _send(Transaction transactionCreated, String password,

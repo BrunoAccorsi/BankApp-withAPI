@@ -1,8 +1,22 @@
-import 'package:bytebank/screens/dashboard.dart';
+import 'package:bytebank/components/theme.dart';
+import 'package:bytebank/models/balance.dart';
+import 'package:bytebank/models/transactions.dart';
+import 'package:bytebank/screens/home.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const Bytebank());
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(
+        create: (context) => Balance(0),
+      ),
+      ChangeNotifierProvider(
+        create: (context) => Transactions(),
+      )
+    ],
+    child: const Bytebank(),
+  ));
 }
 
 class Bytebank extends StatelessWidget {
@@ -11,11 +25,8 @@ class Bytebank extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(
-        primaryColor: Colors.green[900],
-        appBarTheme: AppBarTheme(color: Colors.green[900]),
-      ),
-      home: const dashboard(),
+      theme: byteBankTheme,
+      home: const Home(),
     );
   }
 }
