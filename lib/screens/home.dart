@@ -1,96 +1,51 @@
 // ignore_for_file: camel_case_types
 
 import 'package:bytebank/screens/contacts_list.dart';
+import 'package:bytebank/screens/dashboard.dart';
 import 'package:bytebank/screens/transactions_list.dart';
 import 'package:flutter/material.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
 
   @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  int _selectedPage = 0;
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(60.0),
-        child: AppBar(
-          title: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                'Welcome',
-                style: TextStyle(fontSize: 16, color: Colors.white60),
-              ),
-              const Text(
-                'Bruno',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
+      bottomNavigationBar: NavigationBar(
+        onDestinationSelected: (int index) {
+          setState(() {
+            _selectedPage = index;
+          });
+        },
+        selectedIndex: _selectedPage,
+        destinations: const <Widget>[
+          NavigationDestination(
+            icon: Icon(Icons.home),
+            label: 'Home',
           ),
-          actions: [
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                elevation: 0.0,
-                shape: CircleBorder(),
-                primary: Colors.green[400],
-                shadowColor: Colors.transparent,
-              ),
-              child: Icon(
-                Icons.person,
-                color: Colors.white60,
-                size: 32.0,
-              ),
-              onPressed: () {},
-            ),
-          ],
-        ),
-      ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          SizedBox(
-            height: 200,
-            child: ListView(
-              shrinkWrap: true,
-              scrollDirection: Axis.horizontal,
-              children: [
-                _FeatureItem(
-                    name: 'Transfer',
-                    icon: Icons.monetization_on,
-                    onClick: () {
-                      _showContactsList(context);
-                    }),
-                _FeatureItem(
-                  name: 'Transaction\nFeed',
-                  icon: Icons.description,
-                  onClick: () => _showTransactionsList(context),
-                ),
-              ],
-            ),
+          NavigationDestination(
+            icon: Icon(Icons.monetization_on),
+            label: 'Transfer',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.description),
+            label: 'Transaction\nFeed',
           ),
         ],
       ),
+      body: <Widget>[
+        DashboardContainer(),
+        ContactsListContainer(),
+        TransactionsList(),
+      ][_selectedPage],
     );
   }
-
-  void _showTransactionsList(BuildContext context) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => TransactionsList(),
-      ),
-    );
-  }
-}
-
-void _showContactsList(BuildContext context) {
-  Navigator.of(context).push(
-    MaterialPageRoute(
-      builder: (context) => const ContactsList(),
-    ),
-  );
 }
 
 class _FeatureItem extends StatelessWidget {
@@ -115,12 +70,10 @@ class _FeatureItem extends StatelessWidget {
               elevation: 0,
               shape: CircleBorder(),
               padding: EdgeInsets.all(24),
-              primary: Colors.lightGreen[300],
               shadowColor: Colors.transparent,
             ),
             child: Icon(
               icon,
-              color: Colors.white60,
               size: 32.0,
             ),
             onPressed: () => onClick(),
@@ -132,7 +85,6 @@ class _FeatureItem extends StatelessWidget {
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
-                color: Colors.grey[700],
               ),
               textAlign: TextAlign.center,
             ),

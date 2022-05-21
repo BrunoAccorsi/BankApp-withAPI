@@ -7,19 +7,43 @@ class BalanceCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(24.0),
-        child: Consumer<Balance>(builder: (context, value, child) {
-          return Text(
-            value.toString(),
-            textAlign: TextAlign.center,
-            style: const TextStyle(
-              fontSize: 36,
-              fontWeight: FontWeight.bold,
+    return SizedBox(
+      width: double.infinity,
+      child: Card(
+        clipBehavior: Clip.antiAlias,
+        child: Column(
+          children: [
+            SizedBox(
+              width: double.infinity,
+              child: Container(
+                color: Colors.green[200],
+                child: const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Text(
+                    'Your account balance',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
             ),
-          );
-        }),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Consumer<Balance>(builder: (context, value, child) {
+                return Text(
+                  value.toString(),
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    fontSize: 36,
+                    fontWeight: FontWeight.bold,
+                  ),
+                );
+              }),
+            ),
+          ],
+        ),
       ),
     );
   }
