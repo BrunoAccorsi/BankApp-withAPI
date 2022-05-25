@@ -1,32 +1,25 @@
+import 'package:bytebank/components/localization/i18N_container.dart';
+import 'package:bytebank/components/localization/i18nmessages.dart';
 import 'package:bytebank/models/name_model.dart';
 import 'package:bytebank/screens/contacts_list.dart';
+import 'package:bytebank/screens/dashboard/dashboard_i18n.dart';
 import 'package:bytebank/screens/deposit_form.dart';
 import 'package:bytebank/screens/name.dart';
 import 'package:bytebank/widgets/balance_card.dart';
 import 'package:bytebank/widgets/transactionsListBuilder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:path/path.dart';
-
-class DashboardContainer extends StatelessWidget {
-  const DashboardContainer({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => NameCubit('Bruno'),
-      child: DashBoardView(),
-    );
-  }
-}
 
 class DashBoardView extends StatelessWidget {
-  const DashBoardView({Key? key}) : super(key: key);
+  final DashBoardLazyViewI18N _i18n;
+
+  const DashBoardView(this._i18n);
 
   @override
   Widget build(BuildContext context) {
     ColorScheme theme = Theme.of(context).colorScheme;
     TextTheme _textTheme = Theme.of(context).textTheme;
+
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(60.0),
@@ -82,18 +75,12 @@ class DashBoardView extends StatelessWidget {
               child: ListView(
                 shrinkWrap: true,
                 children: <Widget>[
-                  Container(
-                    width: 5000,
-                    child: const Align(
-                      alignment: Alignment.topCenter,
-                      child: BalanceCard(),
-                    ),
-                  ),
+                  const BalanceCard(),
                   ButtonBar(
                     alignment: MainAxisAlignment.center,
                     children: [
                       ElevatedButton(
-                        child: const Text('Deposit to account'),
+                        child: Text(_i18n.deposit),
                         onPressed: () {
                           Navigator.push(
                               context,
@@ -102,7 +89,7 @@ class DashBoardView extends StatelessWidget {
                         },
                       ),
                       ElevatedButton(
-                        child: const Text('New Transaction'),
+                        child: Text(_i18n.newTransaction),
                         onPressed: () {
                           Navigator.push(
                               context,
@@ -118,8 +105,8 @@ class DashBoardView extends StatelessWidget {
             ),
             Column(
               children: [
-                const Text(
-                  'Last Transactions',
+                Text(
+                  _i18n.LastTransactions,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 24,

@@ -1,7 +1,8 @@
 // ignore_for_file: camel_case_types
 
+import 'package:bytebank/components/localization/eager_localization.dart';
 import 'package:bytebank/screens/contacts_list.dart';
-import 'package:bytebank/screens/dashboard.dart';
+import 'package:bytebank/screens/dashboard/dashboard_container.dart';
 import 'package:bytebank/screens/transactions_list.dart';
 import 'package:flutter/material.dart';
 
@@ -16,6 +17,7 @@ class _HomeState extends State<Home> {
   int _selectedPage = 0;
   @override
   Widget build(BuildContext context) {
+    final i18n = HomeViewI18N(context);
     return Scaffold(
       bottomNavigationBar: NavigationBar(
         onDestinationSelected: (int index) {
@@ -24,18 +26,18 @@ class _HomeState extends State<Home> {
           });
         },
         selectedIndex: _selectedPage,
-        destinations: const <Widget>[
+        destinations: <Widget>[
           NavigationDestination(
             icon: Icon(Icons.home),
-            label: 'Home',
+            label: i18n.home,
           ),
           NavigationDestination(
             icon: Icon(Icons.monetization_on),
-            label: 'Transfer',
+            label: i18n.transfer,
           ),
           NavigationDestination(
             icon: Icon(Icons.description),
-            label: 'Transaction\nFeed',
+            label: i18n.transacionFeed,
           ),
         ],
       ),
@@ -48,49 +50,13 @@ class _HomeState extends State<Home> {
   }
 }
 
-class _FeatureItem extends StatelessWidget {
-  const _FeatureItem({
-    this.name = 'undefined',
-    this.icon,
-    required this.onClick,
-  }) : assert(icon != null);
+class HomeViewI18N extends ViewI18N {
+  HomeViewI18N(BuildContext context) : super(context);
 
-  final String name;
-  final IconData? icon;
-  final Function onClick;
+  String get home => localize({'en': 'Home', 'pt-br': 'Início'});
 
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        children: [
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              elevation: 0,
-              shape: CircleBorder(),
-              padding: EdgeInsets.all(24),
-              shadowColor: Colors.transparent,
-            ),
-            child: Icon(
-              icon,
-              size: 32.0,
-            ),
-            onPressed: () => onClick(),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              name,
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
-              textAlign: TextAlign.center,
-            ),
-          )
-        ],
-      ),
-    );
-  }
+  String get transfer => localize({'en': 'Transfer', 'pt-br': 'Trasnferir'});
+
+  String get transacionFeed =>
+      localize({'en': 'Transaction Feed', 'pt-br': 'Transferências'});
 }

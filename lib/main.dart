@@ -1,10 +1,9 @@
-import 'package:bytebank/components/constants_theme.dart';
+import 'package:bytebank/components/localization/locale.dart';
+import 'package:bytebank/components/localization/i18n_view.dart';
 import 'package:bytebank/components/theme.dart';
 import 'package:bytebank/models/balance.dart';
 import 'package:bytebank/models/transactions.dart';
-import 'package:bytebank/screens/counter_page.dart';
 import 'package:bytebank/screens/home.dart';
-import 'package:bytebank/screens/name.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
@@ -44,7 +43,9 @@ class Bytebank extends StatelessWidget {
     return MaterialApp(
       theme: byteBankTheme,
       darkTheme: byteBankThemeDark,
-      home: Home(),
+      home: LocalizationContainer(
+        child: Home(),
+      ),
     );
   }
 }

@@ -13,7 +13,7 @@ class Transaction {
     this.id,
     this.value,
     this.contact,
-  );
+  ) : assert(value > 0);
 
   @override
   String toString() {
