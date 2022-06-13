@@ -1,6 +1,8 @@
+import 'package:bytebank/components/theme_manager.dart';
 import 'package:bytebank/models/name_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 
 class NameContainer extends StatelessWidget {
   @override
@@ -14,9 +16,18 @@ class NameView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     _nameController.text = context.watch<NameCubit>().state;
+    final ThemeManager _themeManager =
+        Provider.of<ThemeManager>(context, listen: true);
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Change Name'),
+          title: const Text('Toggle theme'),
+          actions: [
+            Switch(
+                value: _themeManager.themeMode == ThemeMode.dark,
+                onChanged: (newValue) {
+                  _themeManager.toggleTheme(newValue);
+                })
+          ],
         ),
         body: Column(
           children: [
@@ -42,7 +53,7 @@ class NameView extends StatelessWidget {
                   child: Text('Change'),
                 ),
               ),
-            )
+            ),
           ],
         ));
   }

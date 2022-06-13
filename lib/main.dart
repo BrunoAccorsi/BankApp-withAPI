@@ -1,8 +1,11 @@
+import 'package:bytebank/components/constants_theme.dart';
 import 'package:bytebank/components/localization/locale.dart';
 import 'package:bytebank/components/localization/i18n_view.dart';
 import 'package:bytebank/components/theme.dart';
+import 'package:bytebank/components/theme_manager.dart';
 import 'package:bytebank/models/balance.dart';
 import 'package:bytebank/models/transactions.dart';
+import 'package:bytebank/screens/dashboard/dashboard_container.dart';
 import 'package:bytebank/screens/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,6 +21,9 @@ void main() {
           ),
           ChangeNotifierProvider(
             create: (context) => Transactions(),
+          ),
+          ChangeNotifierProvider(
+            create: (context) => ThemeManager(),
           )
         ],
         child: const Bytebank(),
@@ -41,10 +47,12 @@ class Bytebank extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: byteBankTheme,
-      darkTheme: byteBankThemeDark,
+      debugShowCheckedModeBanner: false,
+      theme: lightTheme,
+      darkTheme: darkTheme,
+      themeMode: Provider.of<ThemeManager>(context, listen: true).themeMode,
       home: LocalizationContainer(
-        child: Home(),
+        child: DashboardContainer(),
       ),
     );
   }

@@ -1,5 +1,6 @@
 import 'package:bytebank/models/balance.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class BalanceCard extends StatelessWidget {
@@ -7,43 +8,25 @@ class BalanceCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    TextTheme _textTheme = Theme.of(context).textTheme;
+
     return SizedBox(
-      width: double.infinity,
-      child: Card(
-        clipBehavior: Clip.antiAlias,
-        child: Column(
-          children: [
-            SizedBox(
-              width: double.infinity,
-              child: Container(
-                color: Colors.green[200],
-                child: const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text(
-                    'Your account balance',
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            child: Text(
+              'Your account balance',
+              style: _textTheme.headline2,
             ),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Consumer<Balance>(builder: (context, value, child) {
-                return Text(
-                  value.toString(),
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    fontSize: 36,
-                    fontWeight: FontWeight.bold,
-                  ),
-                );
-              }),
-            ),
-          ],
-        ),
+          ),
+          Consumer<Balance>(builder: (context, value, child) {
+            return Text(
+              value.toString(),
+              style: _textTheme.headline3,
+            );
+          }),
+        ],
       ),
     );
   }

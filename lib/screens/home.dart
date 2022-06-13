@@ -5,6 +5,8 @@ import 'package:bytebank/screens/contacts_list.dart';
 import 'package:bytebank/screens/dashboard/dashboard_container.dart';
 import 'package:bytebank/screens/transactions_list.dart';
 import 'package:flutter/material.dart';
+import 'package:iconify_flutter/iconify_flutter.dart';
+import 'package:iconify_flutter/icons/ion.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -28,7 +30,7 @@ class _HomeState extends State<Home> {
         selectedIndex: _selectedPage,
         destinations: <Widget>[
           NavigationDestination(
-            icon: Icon(Icons.home),
+            icon: Iconify(Ion.game_controller),
             label: i18n.home,
           ),
           NavigationDestination(
