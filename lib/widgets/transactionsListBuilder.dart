@@ -1,5 +1,6 @@
 import 'package:bytebank/utils/helper_widget.dart';
 import 'package:bytebank/webAPI/webClients/transaction_webClient.dart';
+import 'package:bytebank/widgets/list_item.dart';
 import 'package:bytebank/widgets/progress.dart';
 import 'package:flutter/material.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
@@ -51,79 +52,15 @@ class TransactionsListBuilder extends StatelessWidget {
                           shrinkWrap: true,
                           itemBuilder: (context, index) {
                             final Transaction transaction = transactions[index];
-                            return Padding(
-                              padding: const EdgeInsets.only(bottom: 8.0),
-                              child: Row(
-                                children: [
-                                  Container(
-                                      width: 32,
-                                      height: 32,
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: Colors.grey,
-                                      ),
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(5),
-                                        child: const Iconify(
-                                          Fa6Solid.money_bill_transfer,
-                                        ),
-                                      )),
-                                  addHorizontalSpace(11),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'Transfer Sent',
-                                        style: _textTheme.bodyText1?.copyWith(
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.w600),
-                                      ),
-                                      Text(
-                                        'Account Number: ${transaction.contact.accountNumber.toString()}',
-                                        style: _textTheme.bodyText1
-                                            ?.copyWith(color: Colors.black),
-                                      ),
-                                    ],
-                                  ),
-                                  Spacer(),
-                                  Column(
-                                    children: [
-                                      Text(
-                                        'may 24',
-                                        style: _textTheme.bodyText1?.copyWith(
-                                            color: theme.primary,
-                                            fontWeight: FontWeight.w600),
-                                      ),
-                                      Text(
-                                        '\$ ${transaction.value.toString()}',
-                                        style: _textTheme.bodyText1?.copyWith(
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.w600),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
+                            return ListItem(
+                              content: {
+                                'title': 'Transaction Sent',
+                                'subtitle':
+                                    'Account Number: ${transaction.contact.accountNumber.toString()}',
+                                'value': transaction.value.toString(),
+                              },
+                              icon: Fa6Solid.money_bill_transfer,
                             );
-                            // return Card(
-                            //   child: ListTile(
-                            //     leading: const Icon(Icons.monetization_on),
-                            //     title: Text(
-                            //       '\$ ${transaction.value.toString()}',
-                            //       style: const TextStyle(
-                            //         fontSize: 24.0,
-                            //         fontWeight: FontWeight.bold,
-                            //       ),
-                            //     ),
-                            //     subtitle: Text(
-                            //       'Account Number: ${transaction.contact.accountNumber.toString()}',
-                            //       style: const TextStyle(
-                            //         fontSize: 16.0,
-                            //       ),
-                            //     ),
-                            //   ),
-                            // );
                           },
                           itemCount: quantity,
                         );

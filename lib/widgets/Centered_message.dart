@@ -18,6 +18,8 @@ class CenteredMessage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ColorScheme theme = Theme.of(context).colorScheme;
+
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -27,6 +29,7 @@ class CenteredMessage extends StatelessWidget {
             child: Icon(
               icon,
               size: iconSize,
+              color: theme.primary,
             ),
             visible: icon != null,
           ),

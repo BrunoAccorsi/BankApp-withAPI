@@ -1,5 +1,6 @@
 import 'package:bytebank/webAPI/webClients/transaction_webClient.dart';
 import 'package:bytebank/widgets/Centered_message.dart';
+import 'package:bytebank/widgets/main_container.dart';
 import 'package:bytebank/widgets/transactionsListBuilder.dart';
 import 'package:flutter/material.dart';
 
@@ -15,7 +16,12 @@ class TransactionsList extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Transactions'),
       ),
-      body: TransactionsListBuilder(),
+      body: MainContainer(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: TransactionsListBuilder(),
+        ),
+      ),
     );
   }
 }

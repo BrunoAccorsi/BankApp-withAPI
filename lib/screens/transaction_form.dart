@@ -1,12 +1,16 @@
 import 'dart:async';
 
 import 'package:bytebank/models/balance.dart';
+import 'package:bytebank/utils/helper_widget.dart';
 import 'package:bytebank/webAPI/webClients/transaction_webClient.dart';
 import 'package:bytebank/widgets/Auth_dialog.dart';
+import 'package:bytebank/widgets/elevated_buttom_icon.dart';
+import 'package:bytebank/widgets/main_container.dart';
 import 'package:bytebank/widgets/progress.dart';
 import 'package:bytebank/widgets/response_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:iconify_flutter/icons/fa6_solid.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
@@ -161,31 +165,70 @@ class _TrasactionForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ColorScheme theme = Theme.of(context).colorScheme;
+    TextTheme _textTheme = Theme.of(context).textTheme;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('New transaction'),
       ),
-      body: SingleChildScrollView(
+      body: MainContainer(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
+                'Select the amount',
+                style: _textTheme.headline2!.copyWith(
+                  color: theme.onBackground,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              addVerticalSpace(16),
+              Text(
                 contact.name,
-                style: const TextStyle(
-                  fontSize: 24.0,
+                style: _textTheme.bodyText1!.copyWith(
+                  color: theme.onBackground,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 16.0),
+                padding: const EdgeInsets.only(top: 4),
                 child: Text(
-                  contact.accountNumber.toString(),
-                  style: const TextStyle(
-                    fontSize: 32.0,
-                    fontWeight: FontWeight.bold,
+                  'Account Number ${contact.accountNumber.toString()}',
+                  style: _textTheme.bodyText1!.copyWith(
+                    color: theme.onBackground,
                   ),
                 ),
+              ),
+              addVerticalSpace(16),
+              Text(
+                'Value',
+                style: _textTheme.bodyText1!.copyWith(
+                  color: theme.onBackground,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              addVerticalSpace(4),
+              Row(
+                children: [
+                  Text(
+                    'Current Balance: ',
+                    style: _textTheme.bodyText1!.copyWith(
+                      color: theme.onBackground,
+                    ),
+                  ),
+                  Consumer<Balance>(builder: (context, value, child) {
+                    return Text(
+                      value.toString(),
+                      style: _textTheme.bodyText1!.copyWith(
+                        color: theme.onBackground,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    );
+                  }),
+                ],
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 16.0),
@@ -200,38 +243,40 @@ class _TrasactionForm extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(top: 16.0),
                 child: SizedBox(
-                  width: double.maxFinite,
-                  child: ElevatedButton(
-                    child: const Text('Transfer'),
-                    onPressed: () {
-                      final double? value =
-                          double.tryParse(_valueController.text);
-                      if (value != null) {
-                        if (!_validateTransaction(context, value)) {
+                    width: double.maxFinite,
+                    child: ElevatedButtomIcon(
+                      text: 'Transfer',
+                      icon: Fa6Solid.money_bill_transfer,
+                      onClick: () {
+                        final double? value =
+                            double.tryParse(_valueController.text);
+                        if (value != null) {
+                          if (!_validateTransaction(context, value)) {
+                            BlocProvider.of<TransactionFormCubit>(context).emit(
+                                FatalErrorTransactionFormState(
+                                    'Your balance is not sufficient for this transaction'));
+                          } else {
+                            showDialog(
+                                context: context,
+                                builder: (contextDialog) {
+                                  return AuthDialog(
+                                      onConfirm: (String password) {
+                                    final transactionCreated = Transaction(
+                                        transactionId, value, contact);
+                                    BlocProvider.of<TransactionFormCubit>(
+                                            context)
+                                        .save(transactionCreated, password,
+                                            context);
+                                  });
+                                });
+                          }
+                        } else {
                           BlocProvider.of<TransactionFormCubit>(context).emit(
                               FatalErrorTransactionFormState(
-                                  'Your balance is not sufficient for this transaction'));
-                        } else {
-                          showDialog(
-                              context: context,
-                              builder: (contextDialog) {
-                                return AuthDialog(onConfirm: (String password) {
-                                  final transactionCreated = Transaction(
-                                      transactionId, value, contact);
-                                  BlocProvider.of<TransactionFormCubit>(context)
-                                      .save(transactionCreated, password,
-                                          context);
-                                });
-                              });
+                                  'Transaction value canot be null'));
                         }
-                      } else {
-                        BlocProvider.of<TransactionFormCubit>(context).emit(
-                            FatalErrorTransactionFormState(
-                                'Transaction value canot be null'));
-                      }
-                    },
-                  ),
-                ),
+                      },
+                    )),
               )
             ],
           ),

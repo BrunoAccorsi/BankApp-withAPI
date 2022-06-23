@@ -1,4 +1,5 @@
 import 'package:bytebank/models/balance.dart';
+import 'package:bytebank/widgets/main_container.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -9,9 +10,12 @@ class DepositForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    TextTheme _textTheme = Theme.of(context).textTheme;
+    ColorScheme theme = Theme.of(context).colorScheme;
+
     return Scaffold(
       appBar: AppBar(title: Text(_title)),
-      body: SingleChildScrollView(
+      body: MainContainer(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(

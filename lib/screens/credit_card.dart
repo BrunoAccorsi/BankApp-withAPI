@@ -1,37 +1,40 @@
 import 'package:bytebank/components/localization/i18N_container.dart';
 import 'package:bytebank/components/localization/i18nmessages.dart';
 import 'package:bytebank/models/balance.dart';
+import 'package:bytebank/models/contact.dart';
 import 'package:bytebank/models/name_model.dart';
+import 'package:bytebank/models/transaction.dart';
 import 'package:bytebank/screens/contacts_list.dart';
-import 'package:bytebank/screens/credit_card.dart';
 import 'package:bytebank/screens/dashboard/dashboard_i18n.dart';
 import 'package:bytebank/screens/deposit_form.dart';
 import 'package:bytebank/screens/name.dart';
 import 'package:bytebank/screens/transactions_list.dart';
 import 'package:bytebank/utils/helper_widget.dart';
 import 'package:bytebank/widgets/balance_card.dart';
+import 'package:bytebank/widgets/credit_card_widget.dart';
+import 'package:bytebank/widgets/elevated_buttom_icon.dart';
 import 'package:bytebank/widgets/incomeExpenses.dart';
+import 'package:bytebank/widgets/list_item.dart';
 import 'package:bytebank/widgets/main_container.dart';
 import 'package:bytebank/widgets/transactionsListBuilder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:iconify_flutter/icons/bi.dart';
+import 'package:iconify_flutter/icons/bxs.dart';
 import 'package:iconify_flutter/icons/el.dart';
 import 'package:iconify_flutter/icons/eva.dart';
 import 'package:iconify_flutter/icons/fa6_solid.dart';
 import 'package:iconify_flutter/icons/fluent.dart';
 import 'package:iconify_flutter/icons/healthicons.dart';
 import 'package:iconify_flutter/icons/heroicons_solid.dart';
+import 'package:iconify_flutter/icons/ic.dart';
+import 'package:iconify_flutter/icons/ion.dart';
 import 'package:provider/provider.dart';
 
 import '../../widgets/menuButtom.dart';
 
-class DashBoardView extends StatelessWidget {
-  final DashBoardLazyViewI18N _i18n;
-
-  const DashBoardView(this._i18n);
-
+class CreditCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ColorScheme theme = Theme.of(context).colorScheme;
@@ -45,10 +48,8 @@ class DashBoardView extends StatelessWidget {
           title: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Text('Welcome, ', style: _textTheme.headline2),
-              BlocBuilder<NameCubit, String>(
-                builder: (context, state) =>
-                    Text('$state', style: _textTheme.headline1),
+              Text(
+                'My cards',
               ),
             ],
           ),
@@ -68,21 +69,12 @@ class DashBoardView extends StatelessWidget {
                 backgroundColor: Colors.white,
                 radius: 16,
                 child: IconButton(
-                  padding: EdgeInsets.zero,
-                  icon: Iconify(
-                    Bi.person_fill,
-                    color: theme.primary,
-                  ),
-                  onPressed: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => BlocProvider.value(
-                        value: BlocProvider.of<NameCubit>(context),
-                        child: NameContainer(),
-                      ),
+                    padding: EdgeInsets.zero,
+                    icon: Iconify(
+                      Bi.person_fill,
+                      color: theme.primary,
                     ),
-                  ),
-                ),
+                    onPressed: () {}),
               ),
             ),
           ],
@@ -115,74 +107,31 @@ class DashBoardView extends StatelessWidget {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const BalanceCard(),
-                              ElevatedButton(
-                                onPressed: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              TransactionsList()));
-                                },
-                                child: Text(
-                                  'See More',
-                                  style: _textTheme.button,
+                              SizedBox(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      child: Text(
+                                        'Total Spent',
+                                        style: _textTheme.headline2,
+                                      ),
+                                    ),
+                                    Text(
+                                      '\$ 5.000',
+                                      style: _textTheme.headline3,
+                                    ),
+                                  ],
                                 ),
                               ),
+                              addVerticalSpace(18),
+                              CreditCardWidget(),
                             ],
                           ),
                           addVerticalSpace(88),
                         ],
                       ),
                     ),
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 16.0),
-                        child: Wrap(
-                          spacing: 8,
-                          children: <Widget>[
-                            MenuButton(
-                              icon: Healthicons.coins,
-                              text: _i18n.deposit,
-                              onClick: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => DepositForm()));
-                              },
-                            ),
-                            MenuButton(
-                              icon: Fa6Solid.money_bill_transfer,
-                              text: _i18n.newTransaction,
-                              onClick: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            ContactsListContainer()));
-                              },
-                            ),
-                            MenuButton(
-                              icon: HeroiconsSolid.credit_card,
-                              text: 'My cards',
-                              onClick: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => CreditCard()));
-                              },
-                            ),
-                            MenuButton(
-                              icon: Fluent.send_28_filled,
-                              text: 'Payment',
-                              onClick: () {},
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    addVerticalSpace(16),
                   ],
                 ),
               ],
@@ -205,21 +154,43 @@ class DashBoardView extends StatelessWidget {
                           children: [
                             Padding(
                               padding: const EdgeInsets.all(16.0),
-                              child: Text(
-                                'This Month',
-                                style: _textTheme.headline2,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'Card Number',
+                                    style: _textTheme.bodyText1!.copyWith(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Text(
+                                    '0000 0000 0000 0000',
+                                    style: _textTheme.bodyText1,
+                                  ),
+                                  Text(
+                                    'Copy',
+                                    style: _textTheme.bodyText1!.copyWith(
+                                      fontWeight: FontWeight.bold,
+                                      color: theme.primary,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                IncomeExpenses(
-                                    type: 'Income', value: '\$ 5.000'),
-                                addHorizontalSpace(24),
-                                IncomeExpenses(
-                                    type: 'Expanse', value: '\$ 5.000'),
-                              ],
-                            ),
+                            Align(
+                              alignment: AlignmentDirectional.center,
+                              child: ElevatedButtomIcon(
+                                color: MaterialStateProperty.all<Color>(
+                                  theme.primary,
+                                ),
+                                icon: Ic.baseline_lock,
+                                text: 'Block Card',
+                                onClick: () {},
+                                width: 260,
+                                height: 40,
+                              ),
+                            )
                           ]),
                     ),
                   ],
@@ -240,9 +211,9 @@ class DashBoardView extends StatelessWidget {
                                 Padding(
                                   padding: const EdgeInsets.only(
                                       top: 16.0, left: 16.00),
-                                  child: Text(_i18n.LastTransactions,
+                                  child: Text('Last Transactions',
                                       style: _textTheme.headline2?.copyWith(
-                                        color: theme.onPrimaryContainer,
+                                        color: theme.onPrimary,
                                       )),
                                 ),
                                 Padding(
@@ -250,7 +221,7 @@ class DashBoardView extends StatelessWidget {
                                       EdgeInsets.only(top: 16.0, right: 16.00),
                                   child: Iconify(
                                     Eva.search_fill,
-                                    color: theme.outline,
+                                    color: theme.tertiary,
                                   ),
                                 ),
                               ],
@@ -259,9 +230,28 @@ class DashBoardView extends StatelessWidget {
                               padding: const EdgeInsets.all(16.0),
                               child: SizedBox(
                                 height: 200,
-                                child: TransactionsListBuilder(
-                                  itemCount: 2,
-                                ),
+                                child: Column(children: [
+                                  ListItem(content: {
+                                    'title': 'Amazon Marketplace',
+                                    'subtitle': '21:00PM',
+                                    'value': '1000'
+                                  }, icon: Ic.round_store),
+                                  ListItem(content: {
+                                    'title': 'Steam',
+                                    'subtitle': '18:35PM',
+                                    'value': '60'
+                                  }, icon: Ion.game_controller),
+                                  ListItem(content: {
+                                    'title': 'McDonalds',
+                                    'subtitle': '13:30PM',
+                                    'value': '10'
+                                  }, icon: Ic.round_store),
+                                  ListItem(content: {
+                                    'title': 'Walmart',
+                                    'subtitle': '18:00PM',
+                                    'value': '300'
+                                  }, icon: Ic.round_store),
+                                ]),
                               ),
                             ),
                           ],

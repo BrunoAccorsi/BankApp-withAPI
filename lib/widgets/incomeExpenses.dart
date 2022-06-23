@@ -29,7 +29,7 @@ class IncomeExpenses extends StatelessWidget {
               width: 48,
               child: Iconify(
                 isIncome ? Eva.arrow_upward_fill : Eva.arrow_downward_fill,
-                color: isIncome ? theme.onTertiaryContainer : theme.onTertiary,
+                color: isIncome ? theme.onInverseSurface : theme.onTertiary,
               ),
             ),
             addHorizontalSpace(8),
