@@ -260,7 +260,7 @@ class DashBoardView extends StatelessWidget {
                               child: SizedBox(
                                 height: 200,
                                 child: TransactionsListBuilder(
-                                  itemCount: 2,
+                                  itemCount: 4,
                                 ),
                               ),
                             ),
