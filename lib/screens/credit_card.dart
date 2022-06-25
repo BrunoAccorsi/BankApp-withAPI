@@ -148,7 +148,8 @@ class CreditCard extends StatelessWidget {
                         color: theme.onSecondaryContainer,
                       ),
                       width: double.infinity,
-                      height: (MediaQuery.of(context).size.height / 2) - 35,
+                      height: (MediaQuery.of(context).size.height / 2) - 35
+                      ,
                       child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
